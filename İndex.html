@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVCI Browser</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #fff; height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 24px; padding: 20px;
+  }
+  .logo {
+    font-size: 64px; font-weight: 900;
+    background: linear-gradient(90deg, #ff6b35, #f7931e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -2px;
+  }
+  .alt-yazi { color: #a0a0c0; font-size: 14px; margin-top: -16px; }
+  .arama-kutu {
+    display: flex; gap: 8px; width: 100%; max-width: 560px;
+  }
+  .arama-kutu input {
+    flex: 1; padding: 14px 20px; border-radius: 30px;
+    border: 2px solid #ff6b35; background: rgba(255,255,255,0.05);
+    color: #fff; font-size: 16px; outline: none;
+  }
+  .arama-kutu input:focus { border-color: #f7931e; box-shadow: 0 0 20px rgba(255,107,53,0.3); }
+  .arama-kutu button {
+    padding: 14px 28px; border-radius: 30px; border: none;
+    background: linear-gradient(90deg, #ff6b35, #f7931e);
+    color: #fff; font-weight: bold; cursor: pointer; font-size: 16px;
+  }
+  .arama-kutu button:hover { opacity: 0.9; }
+  .kisayollar { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .kisayol {
+    padding: 12px 20px; background: rgba(255,255,255,0.08);
+    border-radius: 12px; text-decoration: none; color: #fff;
+    font-size: 14px; transition: background .15s;
+  }
+  .kisayol:hover { background: rgba(255,107,53,0.3); }
+  .surum { color: #6c7086; font-size: 12px; position: absolute; bottom: 16px; }
+</style>
+</head>
+<body>
+  <div class="logo">AVCI</div>
+  <div class="alt-yazi">Browser — avlamaya hazır 🎯</div>
+
+  <form class="arama-kutu" onsubmit="git(event)">
+    <input id="q" placeholder="Ara veya adres yaz..." autofocus />
+    <button type="submit">Git</button>
+  </form>
+
+  <div class="kisayollar">
+    <a class="kisayol" href="tarayici.html">🌐 Tarayıcı</a>
+    <a class="kisayol" href="https://github.com" target="_blank">GitHub</a>
+    <a class="kisayol" href="https://google.com" target="_blank">Google</a>
+    <a class="kisayol" href="https://youtube.com" target="_blank">YouTube</a>
+  </div>
+
+  <div class="surum">AVCI Browser v0.1</div>
+
+<script>
+function git(e) {
+  e.preventDefault();
+  let v = document.getElementById('q').value.trim();
+  if (!v) return;
+  if (!v.includes('.') && !v.startsWith('http')) {
+    v = 'https://www.google.com/search?q=' + encodeURIComponent(v);
+  } else if (!v.startsWith('http')) {
+    v = 'https://' + v;
+  }
+  window.location.href = v;
+}
+</script>
+</body>
+  </html>
