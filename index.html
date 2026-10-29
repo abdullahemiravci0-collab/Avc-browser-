@@ -7,201 +7,140 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: system-ui, sans-serif;
-    background: #0f0c29; color: #fff;
-    height: 100vh; display: flex; flex-direction: column;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1025 100%);
+    color: #fff; min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px;
   }
-  .toolbar {
-    display: flex; gap: 6px; padding: 8px;
-    background: #181825; border-bottom: 1px solid #313244;
-    flex-wrap: wrap;
+
+  /* AVCI Logosu */
+  .logo-container {
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
   }
-  .toolbar button {
-    background: #313244; color: #fff; border: none;
-    padding: 8px 14px; border-radius: 6px; cursor: pointer;
-    font-size: 14px;
+  .logo-icon {
+    font-size: 50px;
+    filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.5));
   }
-  .toolbar button:hover { background: #ff6b35; }
-  .adres {
-    flex: 1; min-width: 150px; padding: 8px 12px; border-radius: 6px;
-    border: 1px solid #45475a; background: #1e1e2e;
-    color: #fff; font-size: 14px; outline: none;
-  }
-  .adres:focus { border-color: #ff6b35; }
-  .sekmeler {
-    display: flex; gap: 4px; padding: 6px 8px 0;
-    background: #181825; overflow-x: auto;
-  }
-  .sekme {
-    display: flex; align-items: center; gap: 6px;
-    padding: 8px 12px; background: #313244; border-radius: 8px 8px 0 0;
-    font-size: 13px; cursor: pointer; white-space: nowrap;
-    max-width: 180px; overflow: hidden;
-  }
-  .sekme.aktif { background: #0f0c29; color: #ff6b35; }
-  .sekme .kapat {
-    background: none; border: none; color: #6c7086;
-    cursor: pointer; font-size: 16px;
-  }
-  .sekme .kapat:hover { color: #f38ba8; }
-  .icerik { flex: 1; position: relative; }
-  iframe {
-    width: 100%; height: 100%; border: none;
-    background: #fff; display: none;
-  }
-  iframe.aktif { display: block; }
-  .bos-ekran {
-    position: absolute; inset: 0; display: flex;
-    flex-direction: column; align-items: center; justify-content: center;
-    gap: 16px; text-align: center; padding: 20px;
-  }
-  .bos-ekran h1 {
-    font-size: 48px;
+  .logo-text {
+    font-size: 54px; font-weight: 900;
     background: linear-gradient(90deg, #ff6b35, #f7931e);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -2px;
+    margin-left: 10px;
   }
-  .bos-ekran p { color: #6c7086; font-size: 14px; }
-  .durum {
-    padding: 4px 12px; background: #11111b; font-size: 11px;
-    color: #6c7086; display: flex; justify-content: space-between;
+  
+  .slogan {
+    color: #888; font-size: 14px; margin-bottom: 40px;
+    letter-spacing: 1px;
+  }
+
+  /* Arama Kutusu */
+  .arama-kutu {
+    display: flex; gap: 8px; width: 100%; max-width: 600px;
+    background: rgba(255,255,255,0.05);
+    padding: 6px; border-radius: 30px;
+    border: 1px solid rgba(255,107,53,0.3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+  .arama-kutu:focus-within {
+    border-color: #ff6b35;
+    box-shadow: 0 4px 25px rgba(255,107,53,0.2);
+  }
+  .arama-kutu input {
+    flex: 1; padding: 14px 20px; border-radius: 25px;
+    border: none; background: transparent;
+    color: #fff; font-size: 16px; outline: none;
+  }
+  .arama-kutu input::placeholder { color: #666; }
+  .arama-kutu button {
+    padding: 14px 24px; border-radius: 25px; border: none;
+    background: linear-gradient(90deg, #ff6b35, #f7931e);
+    color: #fff; font-weight: bold; cursor: pointer; font-size: 15px;
+    transition: transform 0.1s;
+  }
+  .arama-kutu button:active { transform: scale(0.95); }
+
+  /* Kısayollar */
+  .kisayollar {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 16px; margin-top: 50px; max-width: 400px; width: 100%;
+  }
+  .kisayol {
+    display: flex; flex-direction: column; align-items: center;
+    text-decoration: none; color: #ccc; font-size: 12px;
+    gap: 8px; transition: transform 0.2s;
+  }
+  .kisayol:hover { transform: translateY(-3px); color: #fff; }
+  .kisayol-ikon {
+    width: 56px; height: 56px; border-radius: 16px;
+    background: rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .kisayol:hover .kisayol-ikon { background: rgba(255,107,53,0.2); border-color: #ff6b35; }
+
+  /* Alt Bilgi */
+  .surum {
+    position: absolute; bottom: 20px;
+    color: #444; font-size: 11px; letter-spacing: 1px;
   }
 </style>
 </head>
 <body>
 
-<div class="toolbar">
-  <button id="geri">←</button>
-  <button id="ileri">→</button>
-  <button id="yenile">⟳</button>
-  <input class="adres" id="adres" placeholder="Ara veya adres yaz..." />
-  <button id="git">Git</button>
-  <button id="yeniSekme">+</button>
-</div>
-
-<div class="sekmeler" id="sekmeCubugu"></div>
-
-<div class="icerik" id="icerik">
-  <div class="bos-ekran" id="bosEkran">
-    <h1>AVCI</h1>
-    <p>Bing ile arama yapın veya adres yazın</p>
+  <div class="logo-container">
+    <div class="logo-icon">🎯</div>
+    <div class="logo-text">AVCI</div>
   </div>
-</div>
+  <div class="slogan">AĞDA AVCILIK BAŞLASIN</div>
 
-<div class="durum">
-  <span id="durumYazi">Hazır</span>
-  <span id="saat"></span>
-</div>
+  <form class="arama-kutu" onsubmit="git(event)">
+    <input id="q" placeholder="Bing'de ara veya adres yaz..." autocomplete="off" autofocus />
+    <button type="submit">Ara</button>
+  </form>
+
+  <div class="kisayollar">
+    <a class="kisayol" href="tarayici.html">
+      <div class="kisayol-ikon">🌐</div>
+      <span>Tarayıcı</span>
+    </a>
+    <a class="kisayol" href="https://youtube.com" target="_blank">
+      <div class="kisayol-ikon">▶️</div>
+      <span>YouTube</span>
+    </a>
+    <a class="kisayol" href="https://github.com" target="_blank">
+      <div class="kisayol-ikon">🐙</div>
+      <span>GitHub</span>
+    </a>
+    <a class="kisayol" href="https://bing.com" target="_blank">
+      <div class="kisayol-ikon">🔍</div>
+      <span>Bing</span>
+    </a>
+  </div>
+
+  <div class="surum">AVCI BROWSER v0.2</div>
 
 <script>
-let sekmeler = [];
-let aktifId = null;
-let sayac = 0;
-
-function yeniSekme(url = null) {
-  const id = 'sekme_' + (sayac++);
-  const frame = document.createElement('iframe');
-  frame.id = 'frame_' + id;
-  frame.setAttribute('referrerpolicy', 'no-referrer');
-  document.getElementById('icerik').appendChild(frame);
-  sekmeler.push({ id, url: url || 'hakkinda:bos', baslik: 'Yeni Sekme' });
-
-  const div = document.createElement('div');
-  div.className = 'sekme';
-  div.dataset.id = id;
-  div.innerHTML = `<span class="baslik">Yeni Sekme</span>
-                   <button class="kapat">×</button>`;
-  div.querySelector('.baslik').onclick = () => sekmeSec(id);
-  div.querySelector('.kapat').onclick = (e) => {
-    e.stopPropagation(); sekmeKapat(id);
-  };
-  document.getElementById('sekmeCubugu').appendChild(div);
-
-  sekmeSec(id);
-  if (url) urlYukle(url);
-  return id;
-}
-
-function sekmeSec(id) {
-  aktifId = id;
-  sekmeler.forEach(s => {
-    const f = document.getElementById('frame_' + s.id);
-    const d = document.querySelector(`.sekme[data-id="${s.id}"]`);
-    if (f) f.classList.toggle('aktif', s.id === id);
-    if (d) d.classList.toggle('aktif', s.id === id);
-  });
-  const s = sekmeler.find(x => x.id === id);
-  document.getElementById('bosEkran').style.display =
-    (s && s.url === 'hakkinda:bos') ? 'flex' : 'none';
-  document.getElementById('adres').value =
-    (s && s.url !== 'hakkinda:bos') ? s.url : '';
-}
-
-function sekmeKapat(id) {
-  const idx = sekmeler.findIndex(s => s.id === id);
-  if (idx === -1) return;
-  document.getElementById('frame_' + id)?.remove();
-  document.querySelector(`.sekme[data-id="${id}"]`)?.remove();
-  sekmeler.splice(idx, 1);
-  if (sekmeler.length === 0) yeniSekme();
-  else if (aktifId === id) sekmeSec(sekmeler[Math.max(0, idx - 1)].id);
-}
-
-function urlYukle(girdi) {
-  let url = girdi.trim();
-  if (!url) return;
-
-  // Nokta yoksa → Bing'de ara
-  if (!url.includes('.') && !url.startsWith('http')) {
-    url = 'https://www.bing.com/search?q=' + encodeURIComponent(url);
-  } else if (!url.startsWith('http')) {
-    url = 'https://' + url;
+function git(e) {
+  e.preventDefault();
+  let v = document.getElementById('q').value.trim();
+  if (!v) return;
+  
+  // Eğer nokta yoksa Bing'de ara
+  if (!v.includes('.') && !v.startsWith('http')) {
+    v = 'https://www.bing.com/search?q=' + encodeURIComponent(v);
+  } else if (!v.startsWith('http')) {
+    v = 'https://' + v;
   }
-
-  const s = sekmeler.find(x => x.id === aktifId);
-  if (!s) return;
-
-  s.url = url;
-  const frame = document.getElementById('frame_' + aktifId);
-  frame.src = url;
-  document.getElementById('bosEkran').style.display = 'none';
-  document.getElementById('durumYazi').textContent = 'Yükleniyor...';
-
-  const baslik = new URL(url).hostname;
-  s.baslik = baslik;
-  document.querySelector(`.sekme[data-id="${aktifId}"] .baslik`).textContent = baslik;
-  document.getElementById('adres').value = url;
-
-  frame.onload = () => {
-    document.getElementById('durumYazi').textContent = 'Yüklendi: ' + baslik;
-  };
+  
+  // Tarayıcı sayfasına yönlendir
+  window.location.href = 'tarayici.html?url=' + encodeURIComponent(v);
 }
-
-document.getElementById('git').onclick = () => {
-  urlYukle(document.getElementById('adres').value);
-};
-document.getElementById('adres').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') urlYukle(e.target.value);
-});
-document.getElementById('geri').onclick = () => {
-  const f = document.getElementById('frame_' + aktifId);
-  if (f) try { f.contentWindow.history.back(); } catch(e) {}
-};
-document.getElementById('ileri').onclick = () => {
-  const f = document.getElementById('frame_' + aktifId);
-  if (f) try { f.contentWindow.history.forward(); } catch(e) {}
-};
-document.getElementById('yenile').onclick = () => {
-  const f = document.getElementById('frame_' + aktifId);
-  if (f && f.src) f.src = f.src;
-};
-document.getElementById('yeniSekme').onclick = () => yeniSekme();
-
-setInterval(() => {
-  document.getElementById('saat').textContent = new Date().toLocaleTimeString('tr-TR');
-}, 1000);
-
-yeniSekme();
 </script>
 </body>
 </html>
